@@ -9,18 +9,19 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
 
   const { telegramId, firstName, avatar } = req.body;
 
-  let user = users.get(telegramId);
+  if (!telegramId) {
+    return res.status(400).json({ error: "telegramId required" });
+  }
 
-  if (!user) {
-    user = {
+  if (!users.has(telegramId)) {
+    users.set(telegramId, {
       telegramId,
       firstName,
       avatar,
       balance: 0,
       energy: 100
-    };
-    users.set(telegramId, user);
+    });
   }
 
-  res.json(user);
+  return res.status(200).json(users.get(telegramId));
 }
