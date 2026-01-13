@@ -1,4 +1,6 @@
 export default function handler(req, res) {
-  res.status(200).send("API WORKS");
+  res.status(200).json({
+    ok: true,
+    message: "API works",
+  });
 }
-
